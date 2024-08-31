@@ -16,8 +16,8 @@ def show_rf_options():
         widget.destroy()
     
     # Add the FS_RF and No_FS_RF buttons
-    fs_rf_button = tk.Button(top_right_frame, text="RF Feature Selection", font=("Arial", 14), command=show_rffs_graph)
-    no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14))
+    fs_rf_button = tk.Button(top_right_frame, text="RF Feature Selection", font=("Arial", 14))
+    no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_rfnfs_graph)
     
     fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
     no_fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
@@ -30,8 +30,8 @@ def show_svm_options():
         widget.destroy()
     
     # Add the FS_RF and No_FS_RF buttons
-    fs_rf_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14), command=show_svmfs_graph)
-    no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14))
+    fs_rf_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14))
+    no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_svmnfs_graph)
     
     fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
     no_fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
@@ -67,7 +67,7 @@ def reset_bottom_right_frame():
     bottom_label = tk.Label(bottom_right_frame, text="Bottom Right Frame", font=("Arial", 16), bg='lightgreen')
     bottom_label.pack(pady=20, padx=20, fill=tk.BOTH, expand=True)
     
-def show_rffs_graph():
+def show_rfnfs_graph():
     reset_bottom_right_frame()
     
     # Calculate confusion matrix and ROC AUC score
@@ -122,7 +122,7 @@ def show_rffs_graph():
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
     
-def show_svmfs_graph():
+def show_svmnfs_graph():
     reset_bottom_right_frame()
     
     # Calculate confusion matrix and ROC AUC score
