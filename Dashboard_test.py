@@ -18,9 +18,11 @@ def show_rf_options():
     # Add the FS_RF and No_FS_RF buttons
     fs_rf_button = tk.Button(top_right_frame, text="RF Feature Selection", font=("Arial", 14))
     no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_rfnfs_graph)
+    performance_rf_button = tk.Button(top_right_frame, text="Performance Graph", font=("Arial", 14), command=shw_rf_performance_graph)
     
     fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
     no_fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
+    performance_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
 
 # Function to show the RF options in the top right frame
 def show_svm_options():
@@ -30,12 +32,13 @@ def show_svm_options():
         widget.destroy()
     
     # Add the FS_RF and No_FS_RF buttons
-    fs_rf_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14))
-    no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_svmnfs_graph)
+    fs_svm_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14))
+    no_fs_svm_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_svmnfs_graph)
+    performance_svm_button = tk.Button(top_right_frame, text="Performance Graph", font=("Arial", 14), command=shw_svm_performance_graph)
     
-    fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
-    no_fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
-
+    fs_svm_button.pack(side=tk.LEFT, padx=10, pady=10)
+    no_fs_svm_button.pack(side=tk.LEFT, padx=10, pady=10)
+    performance_svm_button.pack(side=tk.LEFT, padx=10, pady=10)
 
 # Function to reset the window to its initial state
 def reset_window():
@@ -177,6 +180,69 @@ def show_svmnfs_graph():
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
+def shw_rf_performance_graph():
+    techniques = ["All Features", "Mutual Information", "Chi-Square", "F-Score", "RFE", "Genetic Algorithm"]
+    accuracy_before_selection_rf = 86.67   # Example percentage value for RF before feature selection
+    accuracy_after_selection_rf = [93.33, 100, 93.33, 86.67 , 100]   # Example percentage values after feature selection for RF
+    accuracies_rf = [accuracy_before_selection_rf] + accuracy_after_selection_rf
+    
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure
+    fig = Figure(figsize=(7, 5), dpi=100)
+    ax = fig.add_subplot(111)
+    
+    # Plotting the accuracies
+    ax.plot(techniques, accuracies_rf, marker='o', color='blue', linewidth=2, markersize=8)
+    
+    # Set the title and labels
+    ax.set_title("SVM Performance with Different Feature Selection Techniques")
+    ax.set_xlabel("Techniques")
+    ax.set_ylabel("Accuracy (%)")
+    ax.set_ylim(80, 105)  # Set y-axis range slightly above 100 for better visualization
+    
+    # Add accuracy values on top of the bars
+    for i, acc in enumerate(accuracies_rf):
+        ax.text(i, acc + 0.5, f'{acc:.2f}%', ha='center', va='bottom', fontweight='bold')
+    
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    
+def shw_svm_performance_graph():
+    techniques = ["All Features", "Mutual Information", "Chi-Square", "F-Score", "RFE", "Genetic Algorithm"]
+    accuracy_before_selection_svm = 93.33  # Example percentage value for SVM before feature selection
+    accuracy_after_selection_svm = [93.33, 100, 93.33, 93.33, 100]  # Example percentage values after feature selection for SVM
+    accuracies_svm = [accuracy_before_selection_svm] + accuracy_after_selection_svm
+    
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure
+    fig = Figure(figsize=(7, 5), dpi=100)
+    ax = fig.add_subplot(111)
+    
+    # Plotting the accuracies
+    ax.plot(techniques, accuracies_svm, marker='o', color='blue', linewidth=2, markersize=8)
+    
+    # Set the title and labels
+    ax.set_title("SVM Performance with Different Feature Selection Techniques")
+    ax.set_xlabel("Techniques")
+    ax.set_ylabel("Accuracy (%)")
+    ax.set_ylim(90, 105)  # Set y-axis range slightly above 100 for better visualization
+    
+    # Add accuracy values on top of the bars
+    for i, acc in enumerate(accuracies_svm):
+        ax.text(i, acc + 0.5, f'{acc:.2f}%', ha='center', va='bottom', fontweight='bold')
+    
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
 # Create the main window
 root = tk.Tk()
