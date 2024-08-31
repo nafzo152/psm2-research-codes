@@ -16,7 +16,7 @@ def show_rf_options():
         widget.destroy()
     
     # Add the FS_RF and No_FS_RF buttons
-    fs_rf_button = tk.Button(top_right_frame, text="RF Feature Selection", font=("Arial", 14))
+    fs_rf_button = tk.Button(top_right_frame, text="RF Feature Selection", font=("Arial", 14), command=show_rf_feature_selection_options)
     no_fs_rf_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_rfnfs_graph)
     performance_rf_button = tk.Button(top_right_frame, text="Performance Graph", font=("Arial", 14), command=shw_rf_performance_graph)
     
@@ -24,6 +24,26 @@ def show_rf_options():
     no_fs_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
     performance_rf_button.pack(side=tk.LEFT, padx=10, pady=10)
 
+# Function to display feature selection options for RF
+def show_rf_feature_selection_options():
+    # Clear any existing widgets in the top right frame
+    for widget in top_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create five buttons for different feature selection techniques
+    mi_button = tk.Button(top_right_frame, text="Mutual Information", font=("Arial", 14), command=show_rffs_mis_graph)
+    chi_square_button = tk.Button(top_right_frame, text="Chi-Square", font=("Arial", 14), command=show_rffs_cs_graph)
+    f_score_button = tk.Button(top_right_frame, text="F-Score", font=("Arial", 14), command=show_rffs_fs_graph)
+    rfe_button = tk.Button(top_right_frame, text="RFE", font=("Arial", 14), command=show_rffs_ref_graph)
+    ga_button = tk.Button(top_right_frame, text="Genetic Algorithm", font=("Arial", 14), command=show_rffs_ga_graph)
+    
+    # Pack the buttons into the top right frame
+    mi_button.pack(side=tk.LEFT, padx=5, pady=10)
+    chi_square_button.pack(side=tk.LEFT, padx=5, pady=10)
+    f_score_button.pack(side=tk.LEFT, padx=5, pady=10)
+    rfe_button.pack(side=tk.LEFT, padx=5, pady=10)
+    ga_button.pack(side=tk.LEFT, padx=5, pady=10)
+    
 # Function to show the RF options in the top right frame
 def show_svm_options():
     reset_bottom_right_frame()
@@ -32,7 +52,7 @@ def show_svm_options():
         widget.destroy()
     
     # Add the FS_RF and No_FS_RF buttons
-    fs_svm_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14))
+    fs_svm_button = tk.Button(top_right_frame, text="SVM Feature Selection", font=("Arial", 14), command=show_svm_feature_selection_options)
     no_fs_svm_button = tk.Button(top_right_frame, text="Without Feature Selection", font=("Arial", 14), command=show_svmnfs_graph)
     performance_svm_button = tk.Button(top_right_frame, text="Performance Graph", font=("Arial", 14), command=shw_svm_performance_graph)
     
@@ -40,6 +60,26 @@ def show_svm_options():
     no_fs_svm_button.pack(side=tk.LEFT, padx=10, pady=10)
     performance_svm_button.pack(side=tk.LEFT, padx=10, pady=10)
 
+# Function to display feature selection options for SVM
+def show_svm_feature_selection_options():
+    # Clear any existing widgets in the top right frame
+    for widget in top_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create five buttons for different feature selection techniques
+    mi_button = tk.Button(top_right_frame, text="Mutual Information", font=("Arial", 14), command=show_svmfs_mis_graph)
+    chi_square_button = tk.Button(top_right_frame, text="Chi-Square", font=("Arial", 14), command=show_svmfs_cs_graph)
+    f_score_button = tk.Button(top_right_frame, text="F-Score", font=("Arial", 14), command=show_svmfs_fs_graph)
+    rfe_button = tk.Button(top_right_frame, text="RFE", font=("Arial", 14), command=show_svmfs_ref_graph)
+    ga_button = tk.Button(top_right_frame, text="Genetic Algorithm", font=("Arial", 14), command=show_svmfs_ga_graph)
+    
+    # Pack the buttons into the top right frame
+    mi_button.pack(side=tk.LEFT, padx=5, pady=10)
+    chi_square_button.pack(side=tk.LEFT, padx=5, pady=10)
+    f_score_button.pack(side=tk.LEFT, padx=5, pady=10)
+    rfe_button.pack(side=tk.LEFT, padx=5, pady=10)
+    ga_button.pack(side=tk.LEFT, padx=5, pady=10)
+    
 # Function to reset the window to its initial state
 def reset_window():
     # Clear any existing widgets in the right frame
@@ -124,6 +164,282 @@ def show_rfnfs_graph():
     canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_rffs_mis_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[11 , 1], [ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1.0, 1.0, 0.90909091, 1.0, 0.90909091]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 0.5, 0.66666667, 0.83333333, 1.0], [0.0, 0.33333333, 1.0, 1.0, 1.0, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_rffs_fs_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[12 , 0],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1.0, 1.0, 0.90909091, 1.0, 0.90909091]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 0.58333333, 0.75, 1.0], [0.0, 0.33333333, 1.0, 1.0, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_rffs_cs_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[12 , 0],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1.0, 1.0, 0.90909091, 1.0, 0.90909091]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 0.83333333, 1.0], [0.0, 0.33333333, 1.0, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    
+def show_rffs_ref_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[11 , 0],[ 2,  2]]
+    roc_auc = 0.9318
+
+    # Sample cross-validation scores
+    cv_scores = [0.75, 0.5, 0.72727273, 0.90909091, 0.72727273]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.27272727, 1.0], [0.0, 0.5, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_rffs_ga_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[12 , 0],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1.0, 1.0, 0.90909091, 1.0, 0.81818182]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 0.08333333, 0.33333333, 1.0], [0.0, 0.33333333, 1.0, 1.0, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
     
 def show_svmnfs_graph():
     reset_bottom_right_frame()
@@ -179,6 +495,283 @@ def show_svmnfs_graph():
     canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    
+def show_svmfs_mis_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[11 , 1], [ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [0.96551724, 0.96428571]
+    folds = [1,2]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 1.0], [0.0, 0.33333333, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_svmfs_fs_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[11 , 1],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [0.96551724, 0.96428571]
+    folds = [1,2]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 1.0], [0.0, 0.33333333, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_svmfs_cs_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[12 , 0],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [0.96551724, 0.96428571]
+    folds = [1,2]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 1.0], [0.0, 0.33333333, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    
+def show_svmfs_ref_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[11 , 1],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1,1,1,1,1]
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 1.0], [0.0, 0.33333333, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+def show_svmfs_ga_graph():
+    reset_bottom_right_frame()
+    
+    # Calculate confusion matrix and ROC AUC score
+    conf_matrix = [[12 , 0],[ 0,  3]]
+    roc_auc = 1.0000
+
+    # Sample cross-validation scores
+    cv_scores = [1.0, 1.0, 0.90909091, 1.0, 1.0]
+
+    folds = [1,2,3,4,5]
+
+    # Clear any existing widgets in the bottom right frame
+    for widget in bottom_right_frame.winfo_children():
+        widget.destroy()
+    
+    # Create a figure with three subplots
+    fig = Figure(figsize=(7, 6), dpi=100)
+    ax1 = fig.add_subplot(131)  # 3 rows, 1 column, 1st subplot
+    ax2 = fig.add_subplot(132)  # 3 rows, 1 column, 2nd subplot
+    ax3 = fig.add_subplot(133)  # 3 rows, 1 column, 3rd subplot
+    
+    # Plot the ROC Curve
+    fpr, tpr= [0.0, 0.0, 0.0, 1.0], [0.0, 0.33333333, 1.0, 1.0]
+    ax1.plot(fpr, tpr, color='red', lw=2, label=f'ROC Curve (AUC = {roc_auc:.2f})')
+    ax1.plot([0, 1], [0, 1], color='green', linestyle='--')
+    ax1.set_xlabel('False Positive Rate')
+    ax1.set_ylabel('True Positive Rate')
+    ax1.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax1.legend(loc="lower right")
+    ax1.legend()
+    ax1.set_facecolor('#f0f0f0')
+    
+    ax2.bar(folds, cv_scores, color='red', edgecolor='black')
+    ax2.set_title("Cross-Validation Results")
+    ax2.set_xlabel("Fold")
+    ax2.set_ylabel("Score")
+    #ax2.legend() #commented out because of warning : "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+    ax2.set_facecolor('#f0f0f0')
+    
+    #confusion matrix
+    print(conf_matrix)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', ax=ax3, cbar=False)
+    ax3.set_title("Confusion Matrix")
+    ax3.set_xlabel("Predicted")
+    ax3.set_ylabel("True")
+    ax3.set_facecolor('#f0f0f0')
+    
+    # Adjust layout
+    fig.tight_layout()
+
+    # Embed the figure in the Tkinter frame
+    canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
 
 def shw_rf_performance_graph():
     techniques = ["All Features", "Mutual Information", "Chi-Square", "F-Score", "RFE", "Genetic Algorithm"]
