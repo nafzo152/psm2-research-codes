@@ -43,6 +43,12 @@ data = {
                 "roc_auc" : 1.0000,
                 "cv_scores" : [1.0, 1.0, 0.90909091, 1.0, 0.81818182],
                 "folds" :[1,2,3,4,5]          
+            },
+            "hb": {
+                "conf_matrix" : [[12 , 12],[ 12,  12]],
+                "roc_auc" : 1.0000,
+                "cv_scores" : [1.0, 1.0, 1.0, 1.0, 1.0],
+                "folds" :[1,2,3,4,5]          
             }
                },
         "SVM": {
@@ -80,6 +86,12 @@ data = {
                 "conf_matrix" : [[12 , 0],[ 0,  3]],
                 "roc_auc" : 1.0000,
                 "cv_scores" : [1.0, 1.0, 0.90909091, 1.0, 1.0],
+                "folds" :[1,2,3,4,5]          
+            },
+            "hb": {
+                "conf_matrix" : [[12 , 12],[ 12,  12]],
+                "roc_auc" : 1.0000,
+                "cv_scores" : [1.0, 1.0, 1.0, 1.0, 1.0],
                 "folds" :[1,2,3,4,5]          
             }
         }
@@ -200,6 +212,7 @@ def show_btn_fs(algorithm):
     f_score_button = tk.Button(top_right_frame, text="F-Score", font=("Arial", 14), command=lambda: show_graph(algorithm,"fs"))
     rfe_button = tk.Button(top_right_frame, text="RFE", font=("Arial", 14), command=lambda: show_graph(algorithm,"ref"))
     ga_button = tk.Button(top_right_frame, text="Genetic Algorithm", font=("Arial", 14), command=lambda: show_graph(algorithm,"ga"))
+    ga_button = tk.Button(top_right_frame, text="Hybrid Algorithm", font=("Arial", 14), command=lambda: show_graph(algorithm,"hb"))
     
     # Pack the buttons into the top right frame
     mi_button.pack(side=tk.LEFT, padx=5, pady=10)
