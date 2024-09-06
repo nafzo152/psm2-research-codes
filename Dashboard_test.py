@@ -6,8 +6,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from sklearn.metrics import roc_auc_score, roc_curve, confusion_matrix
 
-
-
 # Function to show the RF options in the top right frame
 def show_rf_options():
     reset_bottom_right_frame()
@@ -439,7 +437,6 @@ def show_rffs_ga_graph():
     canvas = FigureCanvasTkAgg(fig, master=bottom_right_frame)
     canvas.draw()
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
     
 def show_svmnfs_graph():
     reset_bottom_right_frame()
@@ -883,9 +880,9 @@ RESET = tk.Button(left_frame, text="Reset", font=("Arial", 14), command=reset_wi
 RESET.pack(pady=5, padx=10, fill=tk.BOTH, anchor="n")
 
 # Create labels in the subframes
-top_label = tk.Label(top_right_frame, text="Top Right Frame", font=("Arial", 16), bg='lightblue')
+top_label = tk.Label(top_right_frame, text="", font=("Arial", 16), bg='lightblue')
 top_label.pack(pady=20, padx=20, fill=tk.BOTH, expand=True)
-bottom_label = tk.Label(bottom_right_frame, text="Bottom Right Frame", font=("Arial", 16), bg='lightgreen')
+bottom_label = tk.Label(bottom_right_frame, text="", font=("Arial", 16), bg='lightgreen')
 bottom_label.pack(pady=20, padx=20, fill=tk.BOTH, expand=True)
 
 # Start the Tkinter main loop
